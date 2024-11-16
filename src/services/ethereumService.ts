@@ -50,7 +50,7 @@ export async function verifyAndSign(userAddress: string, amount: string, chainId
     
     const message = ethers.utils.solidityKeccak256(
       ['address', 'string', 'string', 'string', 'string'],
-      [userAddress, nonce.toString(), amount, serviceAddress, chainId]
+      [serviceAddress, userAddress, amount, nonce.toString(), chainId]
     );
     
     const signature = await wallet.signMessage(ethers.utils.arrayify(message));
