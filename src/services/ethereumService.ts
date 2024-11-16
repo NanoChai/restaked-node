@@ -5,7 +5,42 @@ import {contractABI} from '../abi/exportAbi';
 
 dotenv.config();
 
-const provider = new ethers.providers.JsonRpcProvider(process.env.BASE_RPC_URL);
+// Add SSL configuration for the provider
+const providerOptions = {
+  timeout: 30000, // 30 seconds
+  headers: {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+  },
+  https: true
+};
+
+// Create a new connection config
+const connection = {
+  url: process.env.BASE_RPC_URL,
+  timeout: 30000,
+  headers: {
+    "Accept": "application/json",
+    "Content-Type": "application/json"
+  }
+};
+
+// Create a new provider with the connection config
+const provider = new ethers.JsonRpcProvider(
+  connection.url,
+  {
+    name: 'base',
+    chainId: parseInt(process.env.CHAIN_ID || '8453')
+  }
+);
+
+// Ensure connection is established
+provider.getNetwork().then(() => {
+  console.log('Successfully connected to Ethereum provider over SSL');
+}).catch((error: Error) => {
+  console.error('Failed to connect to Ethereum provider:', error);
+});
+
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
 
 
@@ -50,7 +85,7 @@ export async function verifyAndSign(userAddress: string, amount: string, chainId
     }
     user.amount -= Number(amount);
     
-    const message = ethers.utils.solidityKeccak256(
+    const message = ethers.solidityPackedKeccak256(
       ['address', 'address', 'string', 'string', 'string'],
       [serviceAddress, userAddress, amount, nonce.toString(), chainId]
     );
