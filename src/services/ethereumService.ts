@@ -26,6 +26,7 @@ export async function verifyAndSign(userAddress: string, amount: string, chainId
     }
     // Check if the service address already exists
     const existingService = user.services.find(service => service.address === serviceAddress);
+    console.log(user.services);
     let nonce;
     console.log(existingService);
     if (existingService) {
