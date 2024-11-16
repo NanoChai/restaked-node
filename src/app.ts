@@ -4,9 +4,12 @@ import sequelize from './config/database';
 import apiRoutes from './routes/api';
 import { connectRabbitMQ, scheduleClaimFunds } from './services/rabbitmqService';
 
+const cors = require('cors');
+
 dotenv.config();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.use('/', apiRoutes);
