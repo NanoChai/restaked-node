@@ -40,20 +40,19 @@ export async function verifyAndSign(userAddress: string, amount: string, chainId
       user.changed("services", true); // Explicitly mark the field as changed
     }
     // Save changes
+    console.log('Before save:', user.services);
     await user.save();
-    console.log(nonce);
+    console.log('After save:', user.services);
+    
     if (user.amount < Number(amount)){
       return {"status": "low_balance", "signature": ""};
     }
     user.amount -= Number(amount);
     
-    console.log([serviceAddress, userAddress, amount, nonce.toString(), chainId]);
-    
     const message = ethers.utils.solidityKeccak256(
       ['address', 'address', 'string', 'string', 'string'],
       [serviceAddress, userAddress, amount, nonce.toString(), chainId]
     );
-    console.log(message);
     
     const signature = await wallet.signMessage(message);
     // const signature = await wallet.signMessage(ethers.utils.arrayify(message));
