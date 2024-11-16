@@ -49,7 +49,7 @@ export async function verifyAndSign(userAddress: string, amount: string, chainId
     await user.save();
     
     const message = ethers.utils.solidityKeccak256(
-      ['address', 'string', 'string', 'string', 'string'],
+      ['address', 'address', 'string', 'string', 'string'],
       [serviceAddress, userAddress, amount, nonce.toString(), chainId]
     );
     
