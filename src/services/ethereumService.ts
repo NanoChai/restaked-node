@@ -54,9 +54,9 @@ export async function verifyAndSign(userAddress: string, amount: string, chainId
       [serviceAddress, userAddress, amount, nonce.toString(), chainId]
     );
     console.log(message);
-    console.log(ethers.utils.arrayify(message));
     
-    const signature = await wallet.signMessage(ethers.utils.arrayify(message));
+    const signature = await wallet.signMessage(message);
+    // const signature = await wallet.signMessage(ethers.utils.arrayify(message));
     return { "status": "success", "signature": signature, "nonce": nonce.toString(), "restaker": wallet.address};
   } catch (error) {
     console.error('Error in verifyAndSign:', error);
