@@ -39,14 +39,14 @@ export async function verifyAndSign(userAddress: string, amount: string, chainId
       nonce = 1;
       user.changed("services", true); // Explicitly mark the field as changed
     }
+    // Save changes
+    await user.save();
     console.log(nonce);
     if (user.amount < Number(amount)){
       return {"status": "low_balance", "signature": ""};
     }
     user.amount -= Number(amount);
     
-    // Save changes
-    await user.save();
     console.log([serviceAddress, userAddress, amount, nonce.toString(), chainId]);
     
     const message = ethers.utils.solidityKeccak256(
