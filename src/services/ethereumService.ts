@@ -44,12 +44,14 @@ export async function verifyAndSign(userAddress: string, amount: string, chainId
     await user.save();
     
     const message = ethers.utils.solidityKeccak256(
-      ['address', 'string', 'string', 'string'],
-      [userAddress, amount, serviceAddress, chainId]
+      ['address', 'string', 'string', 'string', 'string'],
+      [userAddress, nonce.toString(), amount, serviceAddress, chainId]
     );
 
+    console.log(message);
+    
     const signature = await wallet.signMessage(ethers.utils.arrayify(message));
-    return { "status": "success", "signature": signature, "nonce": nonce};
+    return { "status": "success", "signature": signature, "nonce": nonce.toString()};
   } catch (error) {
     console.error('Error in verifyAndSign:', error);
     throw new Error('Failed to verify and sign the message');
