@@ -27,6 +27,7 @@ export async function verifyAndSign(userAddress: string, amount: string, chainId
     // Check if the service address already exists
     const existingService = user.services.find(service => service.address === serviceAddress);
     let nonce;
+    console.log(existingService);
     if (existingService) {
       // Increment the nonce if the service address exists
       nonce = existingService.nonce + 1;
@@ -38,6 +39,7 @@ export async function verifyAndSign(userAddress: string, amount: string, chainId
       nonce = 1;
       user.changed("services", true); // Explicitly mark the field as changed
     }
+    console.log(nonce);
     if (user.amount < Number(amount)){
       return {"status": "low_balance", "signature": ""};
     }
@@ -50,7 +52,6 @@ export async function verifyAndSign(userAddress: string, amount: string, chainId
       ['address', 'string', 'string', 'string', 'string'],
       [userAddress, nonce.toString(), amount, serviceAddress, chainId]
     );
-    console.log(wallet.address);
     
     const signature = await wallet.signMessage(ethers.utils.arrayify(message));
     return { "status": "success", "signature": signature, "nonce": nonce.toString(), "restaker": wallet.address};
