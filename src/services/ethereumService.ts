@@ -21,6 +21,9 @@ export async function verifyAndSign(userAddress: string, amount: string, chainId
       // Create a new user if it doesn't exist
       return {"status": "user_doesnt_exist", "signature": ""};
     }
+    if (!user.services || !Array.isArray(user.services)) {
+      user.services = [];
+    }
     // Check if the service address already exists
     const existingService = user.services.find(service => service.address === serviceAddress);
     let nonce;
