@@ -1,6 +1,5 @@
 import amqp from 'amqplib';
 import dotenv from 'dotenv';
-import { claimFunds } from './ethereumService';
 
 dotenv.config();
 
@@ -23,7 +22,6 @@ export async function connectRabbitMQ() {
     channel.consume('claimFunds', async (msg) => {
       if (msg !== null) {
         console.log('Received update wallets message');
-        await claimFunds();
         channel.ack(msg);
       }
     });

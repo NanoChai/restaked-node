@@ -15,11 +15,11 @@ User.init(
     },
     services: {
       type: DataTypes.JSONB,
-      allowNull: false,
+      allowNull: true,
     },
     amount: {
       type: DataTypes.FLOAT,
-      allowNull: false,
+      allowNull: true,
     },
   },
   {

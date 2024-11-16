@@ -6,8 +6,8 @@ const router = express.Router();
 
 router.post('/sign-spend', async (req, res) => {
   try {
-    const { userAddress, nonce, amount, chainId, serviceAddress, userSig, timestamp } = req.body;
-    const data = await verifyAndSign(userAddress, nonce, amount, chainId, serviceAddress, userSig, timestamp);
+    const { userAddress, amount, chainId, serviceAddress, userSig, timestamp } = req.body;
+    const data = await verifyAndSign(userAddress, amount, chainId, serviceAddress, userSig, timestamp);
     res.json({ data });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
