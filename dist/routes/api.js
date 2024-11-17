@@ -17,6 +17,7 @@ const ethereumService_1 = require("../services/ethereumService");
 const router = express_1.default.Router();
 router.post('/sign-spend', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log('Request body:', req.body);
         const { userAddress, amount, chainId, serviceAddress, userSig, timestamp } = req.body;
         const data = yield (0, ethereumService_1.verifyAndSign)(userAddress, amount, chainId, serviceAddress, userSig, timestamp);
         res.json({ data });

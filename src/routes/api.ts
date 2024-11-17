@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post('/sign-spend', async (req, res) => {
   try {
+    console.log('Request body:', req.body);
     const { userAddress, amount, chainId, serviceAddress, userSig, timestamp } = req.body;
     const data = await verifyAndSign(userAddress, amount, chainId, serviceAddress, userSig, timestamp);
     res.json({ data });
